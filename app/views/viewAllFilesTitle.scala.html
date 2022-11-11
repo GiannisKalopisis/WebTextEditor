@@ -2,10 +2,14 @@
 
 @main("All files") {
     <h2>All Files</h2>
+    <h3>
+        This are all the files that you created! I challenge you to pick one...
+    </h3>
+
     <ul>
     @for(title <- titles) {
         <li>
-            <a href="#">@title</a>
+            <a href="/view/@title">@title</a>
         </li>
     }
     </ul>
