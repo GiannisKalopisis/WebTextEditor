@@ -1,0 +1,12 @@
+@(titles: Seq[String])
+
+@main("All files") {
+    <h2>All Files</h2>
+    <ul>
+    @for(title <- titles) {
+        <li>
+            <a href="#">@title</a>
+        </li>
+    }
+    </ul>
+}
