@@ -1,0 +1,75 @@
+body {
+    background: #222222;
+    margin: 0;
+    padding: 24px;
+}
+
+.container {
+    width: 500px;
+    padding: 24px;
+    background: #333333;
+    border: 2px solid #444444;
+    border-radius: 4px;
+    font-family: "Readex Pro", sans-serif;
+    font-weight: 300;
+    color: #cccccc;
+}
+
+h1 {
+    margin-top: 0;
+    color: #ffffff;
+}
+
+p {
+    line-height: 1.4;
+    font-size: 14px;
+}
+
+label {
+    font-weight: 500;
+    color: #ffffff;
+    display: block;
+    margin-bottom: 14px;
+}
+
+input,
+textarea {
+    margin-bottom: 21px;
+    width: 250px;
+    padding: 16px;
+    background: #444444;
+    color: #ffffff;
+    border-radius: 4px;
+    border: 2px solid transparent;
+    font-family: "Readex Pro", sans-serif;
+    font-size: 16px;
+    font-weight: 300;
+    transition: background 0.25s, border 0.25s;
+    outline: none;
+}
+
+textarea {
+    width: 350px;
+    height: 100px;
+    resize: none;
+}
+
+input:hover,
+textarea:hover {
+    background: #555555;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #009578;
+    background: #555555;
+}
+
+.autosave-message {
+    text-align: right;
+    color: greenyellow;
+}
+
+.autosave-message--saving {
+    color: #999999;
+}

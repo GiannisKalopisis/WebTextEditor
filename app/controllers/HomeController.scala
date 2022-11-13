@@ -54,4 +54,10 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
 		}
 	}
 	
+	def saveText(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+		println("===========> SAVING TEXT INTO CONTROLLER saveText <===========")
+		println(request.body.asJson)
+		Thread.sleep(1000)
+		Ok("")
+	}
 }
