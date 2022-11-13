@@ -7,7 +7,6 @@
         <title>Web Text Editor</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
-
     </head>
     <body>
         <h2>
@@ -15,41 +14,34 @@
         </h2>
         <form>
             <label>
-                <textarea>
-                    @text
+                <textarea name="text" rows="4" cols="50">@text
                 </textarea>
             </label>
         </form>
-@*        <p>*@
-@*            @text*@
-@*        </p>*@
-        <a href="/view">
+        <a href="/view" >
             <button>Go Back bro, you are drunk...</button>
         </a>
 
         <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>
         <script type="text/javascript">
-                window.addEventListener('beforeunload', function (e) {
-                    // can do a POST request here
-                    e.preventDefault();
-                    e.returnValue = '';
+
+
+                window.addEventListener('beforeunload' || 'onunload', function (e) {
+
+                    // e.preventDefault();
+                    // e.returnValue = '';
+                    let data = {title : "@title"}
+                    fetch('/deleteCookie', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': '',
+                            'Content-Type': ''
+                        },
+                        body: JSON.stringify(data)
+                    }).then(res => {
+                        console.log("Request complete! response:", res);
+                    });
                 });
         </script>
-@*        <script type="text/javascript">*@
-@*                // window.addEventListener('beforeunload', function (e) {*@
-@*                //     e.preventDefault();*@
-@*                //     e.returnValue = '';*@
-@*                // });*@
-
-@*                function closeIt() {*@
-@*                    *@@*const form = document.createElement('form');*@
-@*                    *@@*form.method = 'post';*@
-@*                    *@@*form.action = '@routes.MyController.hello()';*@
-@*                    *@@*document.body.appendChild(form);*@
-@*                    *@@*form.submit();*@
-@*                }*@
-
-@*                window.onbeforeunload = $("<form method='POST' action='/'><input type='hidden' name='q' value='a'/></form>").appendTo("body").submit();;*@
-@*        </script>*@
     </body>
 </html>

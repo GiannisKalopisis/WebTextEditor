@@ -26,8 +26,7 @@ object FileModelInMemory {
 	def update(title: String, text: String): Unit = {
 		if (fileExists(title)) {
 			files(title) = text
-		}
-		else {
+		} else {
 			addFile(title, text)
 		}
 	}

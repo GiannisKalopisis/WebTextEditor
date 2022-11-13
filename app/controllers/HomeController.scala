@@ -3,7 +3,9 @@ package controllers
 import javax.inject._
 import play.api._
 import play.api.mvc._
-import models.{FileModelInMemory}
+import models.{CookieManager, FileModelInMemory}
+
+import scala.util.Random
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -26,39 +28,30 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
 	 *
 	 * It has additional information, including the body
 	 */
-	
-	def viewAllFilesTitle(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-		val files = FileModelInMemory.getAllTitles
-		Ok(views.html.viewAllFilesTitle(files))
-	}
-	
-	def getText(title : String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-		val text = FileModelInMemory.getFile(title)
-		Ok(views.html.fileView(title, text))
-	}
-	
-	/**
-	 * No need for parameters (they aren't in URL), because its a POST method.
-	 *
-	 * We will take them from body
-	 */
-	//	def printFilePost: Action[AnyContent] = Action { request =>
-	//		val postVals = request.body.asFormUrlEncoded
-	//		postVals.map { args =>
-	//			val id = args("id").head
-	//			val name = args("name").head
-	//			val text = args("text").head
-	//			Ok(s"File '$name', with id '$id' and text '$text'")
-	//		}.getOrElse(Ok(""))
-	//	}
-	
-	def printTestFile(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-		//		val file = TestFile(1, "file1", "This is dummy text")
-		Ok(views.html.index())
-	}
-	
+		
 	def index(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
 		Ok(views.html.index())
+	}
+	
+	def viewAllFilesTitle(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+		Ok(views.html.viewAllFilesTitle(FileModelInMemory.getAllTitles))
+	}
+	
+	def deleteCookie(): Action[AnyContent] = Action{ implicit request: Request[AnyContent] =>
+		val referer : String = request.headers.toMap(REFERER).flatMap(_.split("/")).last
+		CookieManager.deleteEntryOfMap(referer)
+		Ok("DELETED COOKIE")
+	}
+	
+	def fileGetRequest(title : String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+		if (CookieManager.containFile(title)) {
+			Ok(views.html.pageUsed(title))
+		} else {
+			val valueOfCookie = Random.alphanumeric.take(10).mkString
+			val text = FileModelInMemory.getFile(title)
+			CookieManager.addCookieToMap(title, valueOfCookie)
+			Ok(views.html.fileView(title, text)).withCookies(Cookie(title, valueOfCookie))
+		}
 	}
 	
 }
