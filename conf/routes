@@ -5,10 +5,11 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index()
-GET     /view                       controllers.HomeController.viewAllFilesTitle()
-GET     /view/:title                controllers.HomeController.fileGetRequest(title)
+
 +nocsrf
 POST    /deleteCookie               controllers.HomeController.deleteCookie
+GET     /view                       controllers.HomeController.viewAllFilesTitle()
+GET     /view/:title                controllers.HomeController.fileGetRequest(title)
 +nocsrf
 POST    /saveText                   controllers.HomeController.saveText()
 

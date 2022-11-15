@@ -1,10 +1,9 @@
 package controllers
 
 import javax.inject._
-import play.api._
 import play.api.mvc._
 import models.{CookieManager, FileModelInMemory}
-
+import play.api.libs.json._
 import scala.util.Random
 
 /**
@@ -37,13 +36,12 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
 		Ok(views.html.viewAllFilesTitle(FileModelInMemory.getAllTitles))
 	}
 	
-	def deleteCookie(): Action[AnyContent] = Action{ implicit request: Request[AnyContent] =>
-		val referer : String = request.headers.toMap(REFERER).flatMap(_.split("/")).last
-		CookieManager.deleteEntryOfMap(referer)
+	def deleteCookie(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+		CookieManager.deleteEntryOfMap(request.headers.toMap(REFERER).flatMap(_.split("/")).last)
 		Ok("DELETED COOKIE")
 	}
 	
-	def fileGetRequest(title : String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+	def fileGetRequest(title: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
 		if (CookieManager.containFile(title)) {
 			Ok(views.html.pageUsed(title))
 		} else {
@@ -54,10 +52,16 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
 		}
 	}
 	
-	def saveText(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-		println("===========> SAVING TEXT INTO CONTROLLER saveText <===========")
-		println(request.body.asJson)
-		Thread.sleep(1000)
-		Ok("")
+	def saveText(): Action[String] = Action(parse.text) { implicit request =>
+		val json = Json.parse(request.body)
+		val title = (json \ "title").as[String]
+		val text = (json \ "text").as[String]
+		
+		if (FileModelInMemory.update(title, text)) {
+			Ok("Data updated successfully")
+		} else {
+			BadRequest(s"Couldn't update file: '$title', with text: '$text' .")
+		}
 	}
+	
 }

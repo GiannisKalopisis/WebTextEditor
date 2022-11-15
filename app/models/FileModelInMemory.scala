@@ -23,12 +23,12 @@ object FileModelInMemory {
 		files(title)
 	}
 	
-	def update(title: String, text: String): Unit = {
+	def update(title: String, text: String): Boolean = {
 		if (fileExists(title)) {
 			files(title) = text
-		} else {
-			addFile(title, text)
+			return true
 		}
+		false
 	}
 	
 	def addFile(title: String, text: String): Unit = {

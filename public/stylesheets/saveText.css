@@ -66,10 +66,27 @@ textarea:focus {
 }
 
 .autosave-message {
+    width: 50%;
+    float: right;
     text-align: right;
     color: greenyellow;
 }
 
+.button-back {
+    width: 50%;
+    float: left;
+    text-align: left;
+    color: chocolate;
+}
+
 .autosave-message--saving {
     color: #999999;
+}
+
+.autosave-message--not-saved {
+    color: #b40b0b;
+}
+
+.autosave-message--not-saved-yet {
+    color: yellow;
 }

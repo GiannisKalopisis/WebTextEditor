@@ -9,83 +9,19 @@
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
     </head>
     <body>
-@*        <div class="container">*@
-@*            <h2>*@
-@*                File: @title*@
-@*            </h2>*@
-            <div class="container">
-                <h1>Edit Profile</h1>
-                <p>
-                    On this page you can customize file @title
-                </p>
-                <label for="biography">Your Text</label>
-                <textarea name="biography" id="biography" data-autosave-url="http://localhost:9000/saveText">@text</textarea>
+        <div class="container">
+            <h1>Edit File: @title</h1>
+            <textarea name=@title id=@title data-autosave-url="http://localhost:9000/saveText">@text</textarea>
+            <div>
                 <div class="autosave-message"></div>
+                <a class="button-back" href="/view">
+                    <!-- Auto-save and then go back -->
+                    <button>Go Back bro, you are drunk...</button>
+                </a>
             </div>
-@*            <label for="file-text">This is the text of file</label>*@
-@*            <textarea name="file-text" id="file-text" autofocus data-autosave-url="/saveText">@text</textarea>*@
-@*            <div class="autosave-message"></div>*@
-
-@*            <form>*@
-@*                <label>*@
-@*                    <textarea name="text" rows="4" cols="50">@text*@
-@*                    </textarea>*@
-@*                </label>*@
-@*            </form>*@
-@*            <a href="/view" >*@
-@*                <button>Go Back bro, you are drunk...</button>*@
-@*            </a>*@
-@*        </div>*@
+        </div>
+        <script src="@routes.Assets.versioned("javascripts/deleteCookie.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/saveScript.js")" type="text/javascript"></script>
         <script src="@routes.Assets.versioned("javascripts/main.js")" type="text/javascript"></script>
-        <script type="text/javascript">
-                document.addEventListener("DOMContentLoaded", () => {
-                    const SAVING_MESSAGE = "Saving...";
-                    const SAVED_MESSAGE = "All changes saved.";
-
-                    document.querySelectorAll('.autosave-message')
-                            .forEach((el) => (el.textContent = SAVED_MESSAGE));
-                    // 'change' || 'onkeypress'
-                    document.querySelectorAll('[data-autosave-url]').forEach((inputField) => {
-                        inputField.addEventListener('keypress', async () => {
-                            console.log("Pressed key ")
-                            const name = inputField.getAttribute("name");
-                            const value = inputField.value;
-                            const url = inputField.dataset.autosaveUrl;
-                            const autosaveMessageEl = inputField
-                                    .closest('.container')
-                                    .querySelector('.autosave-message');
-                            const formData = new FormData();
-
-                            formData.append(name, value);
-                            autosaveMessageEl.classList.add('autosave-message--saving');
-                            autosaveMessageEl.textContent = SAVING_MESSAGE;
-
-                            const response = await fetch(url, {
-                                method: "POST",
-                                body: formData
-                            });
-
-                            autosaveMessageEl.classList.remove('autosave-message--saving');
-                            autosaveMessageEl.textContent = SAVED_MESSAGE;
-                        });
-                    });
-                });
-
-        </script>
-        <script type="text/javascript">
-                window.addEventListener('beforeunload' || 'onunload' || 'reload', function (e) {
-                    let data = {title : "@title"}
-                    fetch('/deleteCookie', {
-                        method: 'POST',
-                        headers: {
-                            'Accept': '',
-                            'Content-Type': ''
-                        },
-                        body: JSON.stringify(data)
-                    }).then(res => {
-                        console.log("Request complete! response:", res);
-                    });
-                });
-        </script>
     </body>
 </html>
