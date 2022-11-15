@@ -9,7 +9,7 @@ import scala.collection.mutable
 object CookieManager {
 	
 	/**
-	 * This is a map from file title -> cookie of file
+	 * This is a map from file title -> cookieValue of file
 	 */
 	private val cookies = mutable.Map[String, String]()
 	
@@ -18,12 +18,10 @@ object CookieManager {
 	}
 	
 	def containFile(title : String): Boolean = {
-		printCookieMap()
 		cookies.contains(title)
 	}
 	
-	def checkCookieEquality(title : String, cookieValue : String): Boolean = {
-//		println(s"checkCookieEquality ${cookies.get(title)}")
+	def equalCookieValue(title : String, cookieValue : String): Boolean = {
 		cookies.get(title).contains(cookieValue)
 	}
 	
@@ -31,10 +29,9 @@ object CookieManager {
 		cookies.remove(title)
 	}
 	
-	private def printCookieMap(): Unit = {
-		println("============================================")
+	def printCookieMap(): Unit = {
 		for (entry <- cookies) {
-			println(s"entry: $entry")
+			println(s"entry: $entry, ")
 		}
 	}
 }
