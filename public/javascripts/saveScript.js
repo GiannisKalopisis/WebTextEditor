@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let counter = 1;
         inputField.addEventListener('input', async (event) => {
             autosaveMessageEl.classList.add('autosave-message--not-saved-yet')
-            autosaveMessageEl.textContent = NOT_SAVED_MESSAGE_YET;
+            autosaveMessageEl.textContent = NOT_SAVED_MESSAGE_YET + ". Type " + (5-counter) + " more times." ;
 
             if (counter === 5){
                 counter = 0;
