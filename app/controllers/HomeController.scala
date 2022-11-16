@@ -4,7 +4,8 @@ import javax.inject._
 import play.api.mvc._
 import models.{CookieManager, FileModelInMemory}
 import play.api.libs.json._
-import scala.util.Random
+
+import scala.collection.mutable
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -33,22 +34,43 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
 	}
 	
 	def viewAllFilesTitle(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-		Ok(views.html.viewAllFilesTitle(FileModelInMemory.getAllTitles))
+		val usedFiles: mutable.Set[String] = CookieManager.getAllCookiesTitle
+		val unusedFiles: Seq[String] = FileModelInMemory.getAllTitles.diff(usedFiles.toSeq)
+		Ok(views.html.viewAllFilesTitle(unusedFiles, usedFiles.toSeq))
 	}
 	
 	def deleteCookie(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-		CookieManager.deleteEntryOfMap(request.headers.toMap(REFERER).flatMap(_.split("/")).last)
+		println(s"Delete cookie ${request.headers.toMap(REFERER).flatMap(_.split("/")).last}")
+		CookieManager.deleteEntryOfList(request.headers.toMap(REFERER).flatMap(_.split("/")).last)
 		Ok("DELETED COOKIE")
 	}
 	
+	// old
+//	def fileGetRequest(title: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+//		println(s"file request ${title}")
+//		if (CookieManager.containFile(title)) {
+//			Ok(views.html.pageUsed(title))
+//		} else {
+//			val valueOfCookie = Random.alphanumeric.take(10).mkString
+//			val text = FileModelInMemory.getFile(title)
+//			CookieManager.addCookieToMap(title, valueOfCookie)
+//			Ok(views.html.fileView(title, text)).withCookies(Cookie(title, valueOfCookie))
+//		}
+//	}
+	
 	def fileGetRequest(title: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+		println(s"file request $title")
+		val text = FileModelInMemory.getFile(title)
+		Ok(views.html.fileView(title, text))
+	}
+	
+	def getCookie(title: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+		println("Get Cookie")
 		if (CookieManager.containFile(title)) {
-			Ok(views.html.pageUsed(title))
+			Ok("true")
 		} else {
-			val valueOfCookie = Random.alphanumeric.take(10).mkString
-			val text = FileModelInMemory.getFile(title)
-			CookieManager.addCookieToMap(title, valueOfCookie)
-			Ok(views.html.fileView(title, text)).withCookies(Cookie(title, valueOfCookie))
+			CookieManager.addCookieToList(title)
+			Ok("false")
 		}
 	}
 	
@@ -57,10 +79,12 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
 		val title = (json \ "title").as[String]
 		val text = (json \ "text").as[String]
 		
+		/* Add checker for cookie */
+		
 		if (FileModelInMemory.update(title, text)) {
 			Ok("Data updated successfully")
 		} else {
-			BadRequest(s"Couldn't update file: '$title', with text: '$text' .")
+			NotModified
 		}
 	}
 	

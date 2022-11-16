@@ -1,7 +1,8 @@
 const SAVING_MESSAGE = "Saving...";
 const SAVED_MESSAGE = "All changes saved.";
-const NOT_SAVED_MESSAGE = "Couldn't save your text."
-const NOT_SAVED_MESSAGE_YET = "Your text is not saved yet"
+const NOT_SAVED_MESSAGE = "Couldn't save your text.";
+const NOT_SAVED_MESSAGE_YET = "Your text is not saved yet";
+let saved = false;
 
 document.querySelectorAll('.autosave-message')
     .forEach((el) => (el.textContent = SAVED_MESSAGE));
@@ -12,7 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
             .closest('.container')
             .querySelector('.autosave-message');
         let counter = 1;
-        inputField.addEventListener('input', async (event) => {
+        inputField.addEventListener('input', async () => {
+            autosaveMessageEl.classList.add('autosave-message--not-saved')
             autosaveMessageEl.classList.add('autosave-message--not-saved-yet')
             autosaveMessageEl.textContent = NOT_SAVED_MESSAGE_YET + ". Type " + (5-counter) + " more times." ;
 
@@ -20,7 +22,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 counter = 0;
                 autosaveMessageEl.classList.remove('autosave-message--not-saved-yet')
                 await saveText(inputField);
-                autosaveMessageEl.textContent = SAVED_MESSAGE;
+                if (saved) {
+                    autosaveMessageEl.classList.remove('autosave-message--not-saved')
+                    autosaveMessageEl.textContent = SAVED_MESSAGE;
+                }
+                else {
+                    autosaveMessageEl.textContent = NOT_SAVED_MESSAGE;
+                }
             }
 
             /* Add here save button */
@@ -52,8 +60,10 @@ async function saveText(inputField) {
 
     autosaveMessageEl.classList.remove('autosave-message--saving');
     if (response.status === 200) {
+        saved = true
         autosaveMessageEl.textContent = SAVED_MESSAGE;
     } else {
+        saved = false
         autosaveMessageEl.classList.add('autosave-message--not-saved')
         autosaveMessageEl.textContent = NOT_SAVED_MESSAGE;
     }

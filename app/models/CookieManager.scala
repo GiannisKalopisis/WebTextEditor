@@ -1,9 +1,6 @@
 package models
 
-import play.api.mvc.{Cookie, Cookies}
-
 import scala.collection.mutable
-
 
 
 object CookieManager {
@@ -11,25 +8,26 @@ object CookieManager {
 	/**
 	 * This is a map from file title -> cookieValue of file
 	 */
-	private val cookies = mutable.Map[String, String]()
+	private val cookies = mutable.Set[String]()
 	
-	def addCookieToMap(title : String, cookieValue : String): Unit = {
-		cookies.addOne(title, cookieValue)
+	def getAllCookiesTitle: mutable.Set[String] = {
+		cookies
+	}
+	
+	def addCookieToList(title : String): Unit = {
+		cookies += title
+		printCookieList()
 	}
 	
 	def containFile(title : String): Boolean = {
 		cookies.contains(title)
 	}
 	
-	def equalCookieValue(title : String, cookieValue : String): Boolean = {
-		cookies.get(title).contains(cookieValue)
+	def deleteEntryOfList(title : String): Unit = {
+		cookies -= title
 	}
 	
-	def deleteEntryOfMap(title : String): Unit = {
-		cookies.remove(title)
-	}
-	
-	def printCookieMap(): Unit = {
+	def printCookieList(): Unit = {
 		for (entry <- cookies) {
 			println(s"entry: $entry, ")
 		}

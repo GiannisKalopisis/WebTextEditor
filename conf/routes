@@ -10,6 +10,7 @@ GET     /                           controllers.HomeController.index()
 POST    /deleteCookie               controllers.HomeController.deleteCookie
 GET     /view                       controllers.HomeController.viewAllFilesTitle()
 GET     /view/:title                controllers.HomeController.fileGetRequest(title)
+GET     /getCookie/:title           controllers.HomeController.getCookie(title)
 +nocsrf
 POST    /saveText                   controllers.HomeController.saveText()
 
