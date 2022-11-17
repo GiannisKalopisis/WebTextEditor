@@ -1,0 +1,16 @@
+# installation
+sudo apt-get update
+sudo apt-get install postgresql postgresql-contrib
+\conninfo
+
+# open db
+sudo su postgres
+psql
+
+# inspect
+\l  -> to see databases
+\du -> to see users
+\dt -> to show tables
+
+## after do all configs for databases
+sbt shell> runMain models.CodeGen --> to generate code from database
