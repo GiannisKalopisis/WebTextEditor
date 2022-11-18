@@ -4,9 +4,9 @@ object CodeGen extends App {
 	slick.codegen.SourceCodeGenerator.run(
 		"slick.jdbc.PostgresProfile",
 		"org.postgresql.Driver",
-		"jdbc:postgresql://localhost/texteditordb?user=texteditormanager&password=password",
-		"app/",
-		"models", None, None, ignoreInvalidDefaults = true, outputToMultipleFiles = false
+		"jdbc:postgresql://localhost:5432/texteditordb?user=gianniskalopisis&password=root",
+		"/home/gianniskalopisis/Desktop/Raw/WebTextEditor/app/",
+		"models", None, None, true, false
 	)
 	// None-1 == user
 	// None-2 == password

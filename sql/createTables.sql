@@ -4,3 +4,6 @@ CREATE TABLE files (
     text TEXT NOT NULL
 );
 
+INSERT INTO files (title,text)
+VALUES ('python','dummy text for python file');
+

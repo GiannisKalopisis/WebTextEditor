@@ -12,8 +12,9 @@ lazy val root = (project in file("."))
 			"com.typesafe.play" %% "play-slick" % "5.1.0",		//db binding
 			"com.typesafe.slick" %% "slick-codegen" % "3.4.1",	//generate code from db to our project
 			"com.typesafe.play" %% "play-json" % "2.9.3",
+			"com.typesafe.slick" %% "slick" % "3.4.1",
 			"org.postgresql" % "postgresql" % "42.5.0",			//db driver we gonna use
-			"com.typesafe.slick" %% "slick-hikaricp" % "3.4.1"	//manager for db connections associated with slick
+			"com.typesafe.slick" %% "slick-hikaricp" % "3.4.1",	//manager for db connections associated with slick
 			//"org.mindrot" % "jbcrypt" % "0.4"					//java lib to hash passwords
 		)
 	)
