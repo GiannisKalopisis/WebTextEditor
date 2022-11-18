@@ -1,10 +1,9 @@
-@(files: Seq[String], usedFiles: Seq[String])
+@(files: Seq[String])
 
 @main("All files") {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        @* Here's where we render the page title `String`. *@
         <title>Web Text Editor</title>
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/saveText.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
@@ -21,38 +20,11 @@
                         <a href="/view/@file">@file</a>
                     </li>
                 }
-@*                @for(file <- usedFiles) {*@
-@*                    <li>*@
-@*                        <a href="/view/@file">@file</a>*@
-@*                    </li>*@
-@*                }*@
             </ul>
+            <a class="button-back" href="/fileCreationPage">
+                <button>Create file</button>
+            </a>
         </div>
-        <br><br>
-        <div class="container">
-            <h2>All Files</h2>
-            <h3>
-                These files are already being edited, and you can't open...
-            </h3>
-            <ul>
-                @for(file <- usedFiles) {
-                    <li>
-                        @file
-                    </li>
-                }
-            </ul>
-        </div>
-@*        <br>*@
-@*        <h3>*@
-@*            These files are already being edited, and you can't open...*@
-@*        </h3>*@
-@*        <ul>*@
-@*            @for(usedFile <- usedFiles) {*@
-@*                <li>*@
-@*                    @usedFile*@
-@*                </li>*@
-@*            }*@
-@*        </ul>*@
     </body>
 </html>
 }

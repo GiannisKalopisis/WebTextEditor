@@ -1,0 +1,24 @@
+@()
+
+@main("Error at file creation") {
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            @* Here's where we render the page title `String`. *@
+            <title>Web Text Editor</title>
+            <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/saveText.css")">
+            <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        </head>
+        <body>
+            <div class="container">
+                <h3>Error Page</h3>
+                <p>
+                    Sorry, we couldn't create your new file. Go back by pressing the button...
+                </p>
+                <a class="button-back" href="/view">
+                    <button>Go back</button>
+                </a>
+            </div>
+        </body>
+    </html>
+}

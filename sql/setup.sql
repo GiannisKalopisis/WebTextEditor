@@ -1,3 +1,5 @@
-CREATE USER gianniskalopisis WITH PASSWORD 'root';
+CREATE USER texteditormanager WITH PASSWORD 'root';
 
-CREATE DATABASE texteditordb WITH OWNER=gianniskalopisis;
+CREATE DATABASE texteditordb WITH OWNER=texteditormanager;
+
+ALTER ROLE texteditormanager WITH SUPERUSER;

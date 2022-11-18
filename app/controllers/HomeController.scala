@@ -34,9 +34,10 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
 	}
 	
 	def viewAllFilesTitle(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-		val usedFiles: mutable.Set[String] = CookieManager.getAllCookiesTitle
-		val unusedFiles: Seq[String] = FileModelInMemory.getAllTitles.diff(usedFiles.toSeq)
-		Ok(views.html.viewAllFilesTitle(unusedFiles, usedFiles.toSeq))
+//		val usedFiles: mutable.Set[String] = CookieManager.getAllCookiesTitle
+//		val unusedFiles: Seq[String] = FileModelInMemory.getAllTitles.diff(usedFiles.toSeq)
+		val unusedFiles: Seq[String] = FileModelInMemory.getAllTitles
+		Ok(views.html.viewAllFilesTitle(unusedFiles))
 	}
 	
 	def deleteCookie(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>

@@ -45,14 +45,8 @@ class TextEditorControllerDB @Inject()(protected val dbConfigProvider: DatabaseC
 	}
 
 	def viewAllFilesTitle(): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
-		val usedFiles: Seq[String] = CookieManager.getAllCookiesTitle.toSeq
 		val dbFiles: Future[Seq[String]] = textEditorDBModel.getAllTitles
-		val unusedFiles = dbFiles.flatMap { files =>
-			Future.successful(files.diff(usedFiles))
-		}
-		unusedFiles.map(file => Ok(views.html.viewAllFilesTitle(file, usedFiles)))
-		//val unusedFiles: Seq[String] = textEditorDBModel.getAllTitles.diff(usedFiles.toSeq)
-		//Ok(views.html.viewAllFilesTitle(unusedFiles., usedFiles))
+		dbFiles.map(file => Ok(views.html.viewAllFilesTitle(file)))
 	}
 
 	def deleteCookie(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
@@ -64,8 +58,6 @@ class TextEditorControllerDB @Inject()(protected val dbConfigProvider: DatabaseC
 	def fileGetRequest(title: String): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
 		println(s"file request $title")
 		textEditorDBModel.getFile(title).map(text => Ok(views.html.fileView(title, text)))
-//		val text = textEditorDBModel.getFile(title)
-//		Ok(views.html.fileView(title, text))
 	}
 
 	def getCookie(title: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
@@ -92,6 +84,27 @@ class TextEditorControllerDB @Inject()(protected val dbConfigProvider: DatabaseC
 				Future.successful(NotModified)
 			}
 		}
+	}
+	
+	def fileCreationPage(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+		Ok(views.html.createFile())
+	}
+	
+	def createFile(): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
+		val postVals = request.body.asFormUrlEncoded
+		postVals.map { args =>
+			val newTitle = args("newTitle").head
+			if (newTitle.isEmpty) Future.successful(Ok(views.html.errorAtFileCreation()))
+			val newText = args("newText").head
+			println(s"file: ${newTitle}, text: ${newText}")
+			textEditorDBModel.addFile(newTitle, newText).flatMap { response =>
+				if (response) {
+					Future.successful(Redirect(routes.TextEditorControllerDB.viewAllFilesTitle()))
+				} else {
+					Future.successful(Ok(views.html.errorAtFileCreation()))
+				}
+			}
+		}.getOrElse(Future.successful(Ok(views.html.errorAtFileCreation())))
 	}
 	
 }

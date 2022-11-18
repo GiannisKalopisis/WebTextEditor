@@ -5,7 +5,8 @@ body {
 }
 
 .container {
-    width: 500px;
+    height: 50%;
+    width: 30%;
     padding: 24px;
     background: #333333;
     border: 2px solid #444444;
@@ -32,6 +33,7 @@ label {
     margin-bottom: 14px;
 }
 
+button,
 input,
 textarea {
     margin-bottom: 21px;
@@ -54,6 +56,12 @@ textarea {
     resize: none;
 }
 
+.input-new-text {
+    width: 350px;
+    height: 100px;
+    resize: none;
+}
+
 input:hover,
 textarea:hover {
     background: #555555;
@@ -63,6 +71,12 @@ input:focus,
 textarea:focus {
     border-color: #009578;
     background: #555555;
+}
+
+a:link {
+    color: #ffffff;
+    background-color: transparent;
+    text-decoration: none;
 }
 
 .autosave-message {

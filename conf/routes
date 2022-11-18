@@ -9,12 +9,16 @@
 GET     /                           controllers.TextEditorControllerDB.index()
 
 +nocsrf
-POST    /deleteCookie               controllers.TextEditorControllerDB.deleteCookie
+POST    /deleteCookie               controllers.TextEditorControllerDB.deleteCookie()
 GET     /view                       controllers.TextEditorControllerDB.viewAllFilesTitle()
 GET     /view/:title                controllers.TextEditorControllerDB.fileGetRequest(title)
 GET     /getCookie/:title           controllers.TextEditorControllerDB.getCookie(title)
-#+nocsrf
++nocsrf
 POST    /saveText                   controllers.TextEditorControllerDB.saveText()
++nocsrf
+POST    /createFile                 controllers.TextEditorControllerDB.createFile()
+GET     /fileCreationPage           controllers.TextEditorControllerDB.fileCreationPage()
+
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
