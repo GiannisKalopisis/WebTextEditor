@@ -1,40 +1,22 @@
 # Routes
 # This file defines all application routes (Higher priority routes first)
 # https://www.playframework.com/documentation/latest/ScalaRouting
-# ~~~~
 
-# An example controller showing a sample home page
-
-# DB ROUTES
 GET     /                           controllers.TextEditorControllerDB.index()
 
 +nocsrf
-POST    /deleteCookie               controllers.TextEditorControllerDB.deleteCookie()
+POST    /deletePage                 controllers.TextEditorControllerDB.deletePage()
 GET     /view                       controllers.TextEditorControllerDB.viewAllFilesTitle()
 GET     /view/:title                controllers.TextEditorControllerDB.fileGetRequest(title)
-GET     /getCookie/:title           controllers.TextEditorControllerDB.getCookie(title)
+GET     /getPage/:title             controllers.TextEditorControllerDB.getPage(title)
 +nocsrf
 POST    /saveText                   controllers.TextEditorControllerDB.saveText()
-+nocsrf
+
+# DB ROUTES
 POST    /createFile                 controllers.TextEditorControllerDB.createFile()
 GET     /fileCreationPage           controllers.TextEditorControllerDB.fileCreationPage()
-+nocsrf
 POST    /deleteFile                 controllers.TextEditorControllerDB.deleteFile()
 
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
-
-# IN MEMORY ROUTES
-#GET     /                           controllers.HomeController.index()
-#
-#+nocsrf
-#POST    /deleteCookie               controllers.HomeController.deleteCookie
-#GET     /view                       controllers.HomeController.viewAllFilesTitle()
-#GET     /view/:title                controllers.HomeController.fileGetRequest(title)
-#GET     /getCookie/:title           controllers.HomeController.getCookie(title)
-#+nocsrf
-#POST    /saveText                   controllers.HomeController.saveText()
-#
-## Map static resources from the /public folder to the /assets URL path
-#GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

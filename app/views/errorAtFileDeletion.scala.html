@@ -1,21 +1,23 @@
 @(title: String)
 
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Web Text Editor</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/saveText.css")">
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
-    </head>
-    <body>
-        <div class="container">
-            <h2>Error</h2>
-            <p>
-                Sorry, we couldn't delete your file@title. Go back by pressing the button...
-            </p>
-            <a class="button-back" href="/view">
-                <button>View files</button>
-            </a>
-        </div>
-    </body>
-</html>
+@main("Error at file deletion") {
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <title>Web Text Editor</title>
+            <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
+            <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
+        </head>
+        <body>
+            <div class="container">
+                <h2>Error</h2>
+                <p>
+                    Sorry, we couldn't delete your file@title. Go back by pressing the button...
+                </p>
+                <a class="button-back" href="/view">
+                    <button>View files</button>
+                </a>
+            </div>
+        </body>
+    </html>
+}

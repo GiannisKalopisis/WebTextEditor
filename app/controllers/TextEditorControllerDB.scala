@@ -2,7 +2,7 @@ package controllers
 
 import javax.inject._
 import play.api.mvc._
-import models.{CookieManager, TextEditorDBModel}
+import models.{PageManager, TextEditorDBModel}
 import play.api.libs.json._
 
 import scala.concurrent.Future
@@ -49,23 +49,26 @@ class TextEditorControllerDB @Inject()(protected val dbConfigProvider: DatabaseC
 		dbFiles.map(file => Ok(views.html.viewAllFilesTitle(file)))
 	}
 
-	def deleteCookie(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-		println(s"Delete cookie ${request.headers.toMap(REFERER).flatMap(_.split("/")).last}")
-		CookieManager.deleteEntryOfList(request.headers.toMap(REFERER).flatMap(_.split("/")).last)
-		Ok("DELETED COOKIE")
+	def deletePage(): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+		PageManager.deleteEntryOfList(request.headers.toMap(REFERER).flatMap(_.split("/")).last)
+		Ok("PAGE DELETED")
 	}
 
 	def fileGetRequest(title: String): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
-		println(s"file request $title")
-		textEditorDBModel.getFile(title).map(text => Ok(views.html.fileView(title, text)))
+		textEditorDBModel.getFile(title).map { text =>
+			if (text.nonEmpty) {
+				Ok(views.html.fileView(title, text))
+			} else {
+				Ok(views.html.errorFilePage(title))
+			}
+		}
 	}
 
-	def getCookie(title: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
-		println("Get Cookie")
-		if (CookieManager.containFile(title)) {
+	def getPage(title: String): Action[AnyContent] = Action { implicit request: Request[AnyContent] =>
+		if (PageManager.containPage(title)) {
 			Ok("true")
 		} else {
-			CookieManager.addCookieToList(title)
+			PageManager.addPageToList(title)
 			Ok("false")
 		}
 	}
@@ -74,8 +77,6 @@ class TextEditorControllerDB @Inject()(protected val dbConfigProvider: DatabaseC
 		val json = Json.parse(request.body)
 		val title = (json \ "title").as[String]
 		val text = (json \ "text").as[String]
-
-		/* Add checker for cookie */
 
 		textEditorDBModel.update(title, text).flatMap { response =>
 			if (response) {
@@ -91,12 +92,11 @@ class TextEditorControllerDB @Inject()(protected val dbConfigProvider: DatabaseC
 	}
 	
 	def createFile(): Action[AnyContent] = Action.async { implicit request =>
-		val postVals = request.body.asFormUrlEncoded
-		postVals.map { args =>
+		val postVal = request.body.asFormUrlEncoded
+		postVal.map { args =>
 			val newTitle = args("newTitle").head
 			if (newTitle.isEmpty) Future.successful(Ok(views.html.errorAtFileCreation()))
 			val newText = args("newText").head
-			println(s"file: ${newTitle}, text: ${newText}")
 			textEditorDBModel.addFile(newTitle, newText).flatMap { response =>
 				if (response) {
 					Future.successful(Redirect(routes.TextEditorControllerDB.viewAllFilesTitle()))
@@ -108,13 +108,11 @@ class TextEditorControllerDB @Inject()(protected val dbConfigProvider: DatabaseC
 	}
 	
 	def deleteFile(): Action[AnyContent] = Action.async { implicit request =>
-		val postVals = request.body.asFormUrlEncoded
-		postVals.map { args =>
+		val postVal = request.body.asFormUrlEncoded
+		postVal.map { args =>
 			val deletedFile = args("deleteFile").head
-			println(s"file: ${deletedFile}")
 			if (deletedFile.isEmpty) Future.successful(Ok(views.html.errorAtFileDeletion("")))
 			val response = textEditorDBModel.deleteFile(deletedFile)
-			println(response)
 			response.flatMap { num =>
 				if (num) {
 					Future.successful(Ok(views.html.deleteFile(deletedFile)))

@@ -1,6 +1,6 @@
 @(title: String)
 
-@main("Delete file"){
+@main("Error finding file") {
     <!DOCTYPE html>
     <html lang="en">
         <head>
@@ -9,11 +9,13 @@
             <link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
         </head>
         <body>
-            <div id="fileDeleted" class="container">
-                <h3>File @title deleted</h3>
-                Press the button to view all the files.
-                <a href="/view">
-                    <button>View files</button>
+            <div class="container">
+                <h3>Error Page</h3>
+                <p>
+                    Sorry, we couldn't find file @title...
+                </p>
+                <a class="button-back" href="/view">
+                    <button>Go back</button>
                 </a>
             </div>
         </body>
