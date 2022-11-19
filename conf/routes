@@ -18,6 +18,8 @@ POST    /saveText                   controllers.TextEditorControllerDB.saveText(
 +nocsrf
 POST    /createFile                 controllers.TextEditorControllerDB.createFile()
 GET     /fileCreationPage           controllers.TextEditorControllerDB.fileCreationPage()
++nocsrf
+POST    /deleteFile                 controllers.TextEditorControllerDB.deleteFile()
 
 
 # Map static resources from the /public folder to the /assets URL path

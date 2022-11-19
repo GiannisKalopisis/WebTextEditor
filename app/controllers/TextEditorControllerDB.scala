@@ -90,7 +90,7 @@ class TextEditorControllerDB @Inject()(protected val dbConfigProvider: DatabaseC
 		Ok(views.html.createFile())
 	}
 	
-	def createFile(): Action[AnyContent] = Action.async { implicit request: Request[AnyContent] =>
+	def createFile(): Action[AnyContent] = Action.async { implicit request =>
 		val postVals = request.body.asFormUrlEncoded
 		postVals.map { args =>
 			val newTitle = args("newTitle").head
@@ -107,4 +107,21 @@ class TextEditorControllerDB @Inject()(protected val dbConfigProvider: DatabaseC
 		}.getOrElse(Future.successful(Ok(views.html.errorAtFileCreation())))
 	}
 	
+	def deleteFile(): Action[AnyContent] = Action.async { implicit request =>
+		val postVals = request.body.asFormUrlEncoded
+		postVals.map { args =>
+			val deletedFile = args("deleteFile").head
+			println(s"file: ${deletedFile}")
+			if (deletedFile.isEmpty) Future.successful(Ok(views.html.errorAtFileDeletion("")))
+			val response = textEditorDBModel.deleteFile(deletedFile)
+			println(response)
+			response.flatMap { num =>
+				if (num) {
+					Future.successful(Ok(views.html.deleteFile(deletedFile)))
+				} else {
+					Future.successful(Ok(views.html.errorAtFileDeletion(" " + deletedFile)))
+				}
+			}
+		}.getOrElse(Future.successful(Ok(views.html.errorAtFileDeletion(""))))
+	}
 }

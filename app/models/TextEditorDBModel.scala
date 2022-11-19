@@ -54,4 +54,15 @@ class TextEditorDBModel(db: Database)(implicit ec: ExecutionContext) {
 				}
 			}
 	}
+	
+	def deleteFile(title: String): Future[Boolean] = {
+		db.run(Files.filter(_.title === title).delete)
+			.flatMap { deletedFiles =>
+				if (deletedFiles == 1){
+					Future.successful(true)
+				} else {
+					Future.successful(false)
+				}
+			}
+	}
 }

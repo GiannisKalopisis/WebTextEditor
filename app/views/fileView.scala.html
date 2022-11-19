@@ -20,17 +20,18 @@
 
         <div id="showFile" style="display: none" class="container">
             <h1>File: @title</h1>
-            <textarea name=@title id=@title data-autosave-url="http://localhost:9000/saveText">@text</textarea>
+            <textarea name=@title id=@title data-autosave-url="/saveText">@text</textarea>
             <div>
                 <div class="autosave-message"></div>
                 <a class="button-back" href="/view">
-                    <button>Go Back bro, you are drunk...</button>
+                    <button>View all files</button>
                 </a>
             </div>
             <div>
-                <a class="button-back" href="/deleteFile">
-                    <button>Go Back bro, you are drunk...</button>
-                </a>
+                <form action="/deleteFile" method="post">
+                    <button type="submit" id="deleteFile" name="deleteFile" value=@title>Delete</button>
+@*                    <input type="submit" id="deleteFile" name="deleteFile" value="Delete">*@
+                </form>
             </div>
         </div>
 
