@@ -7,10 +7,6 @@ object PageManager {
 	
 	private val pages = mutable.Set[String]()
 	
-	def getAllPageTitles: mutable.Set[String] = {
-		pages
-	}
-	
 	def addPageToList(title : String): Unit = {
 		pages += title
 	}

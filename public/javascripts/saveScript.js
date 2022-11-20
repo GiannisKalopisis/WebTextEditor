@@ -14,9 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
             .querySelector('.autosave-message');
         let counter = 1;
         inputField.addEventListener('input', async () => {
+            autosaveMessageEl.setAttribute('style', 'white-space: pre;');
             autosaveMessageEl.classList.add('autosave-message--not-saved')
             autosaveMessageEl.classList.add('autosave-message--not-saved-yet')
-            autosaveMessageEl.textContent = NOT_SAVED_MESSAGE_YET + ". Type " + (5-counter) + " more times." ;
+            autosaveMessageEl.textContent = NOT_SAVED_MESSAGE_YET + ".\r\n Type " + (5-counter) + " more times." ;
 
             if (counter === 5){
                 counter = 0;

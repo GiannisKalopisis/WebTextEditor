@@ -10,28 +10,32 @@
         </head>
         <body>
 
+            <!-- FILE ALREADY USED -->
             <div id="UsedFile" style="display: none" class="container">
-                <h1>File @title is already in use...</h1>
+                <h2>File @title is already in use...</h2>
                 Press the button to view all the files.
                 <a href="/view">
                     <button>View files</button>
                 </a>
             </div>
 
+            <!-- RENDER FILE -->
             <div id="showFile" style="display: none" class="container">
-                <h1>File: @title</h1>
+                <h2>File: @title</h2>
                 <textarea name=@title id=@title data-autosave-url="/saveText">@text</textarea>
                 <div>
-                    <div class="autosave-message"></div>
-                    <a class="button-back" href="/view">
-                        <button>View all files</button>
-                    </a>
+                        <div class="autosave-message"></div>
                 </div>
                 <div>
                     <form action="/deleteFile" method="post">
                         @helper.CSRF.formField
                         <button type="submit" id="deleteFile" name="deleteFile" value=@title>Delete</button>
                     </form>
+                </div>
+                <div>
+                    <a class="button-back" href="/view">
+                        <button>View all files</button>
+                    </a>
                 </div>
             </div>
 
