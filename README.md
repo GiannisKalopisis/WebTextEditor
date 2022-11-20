@@ -31,8 +31,8 @@ sudo apt install postgresql postgresql-contrib
 
 ```
 
-### Setup database
-To setup the database you have to follow the instructions of file *sql/setup.sql*. Create a user, then create a database with owner the user you just created and then alter the role of user to *superuser*, to have the appropriate permissions.
+### Set-up database
+To set up the database you have to follow the instructions of file *sql/setup.sql*. Create a user, then create a database with owner the user you just created and then alter the role of user to *superuser*, to have the appropriate permissions.
 ```
 CREATE USER texteditormanager WITH PASSWORD 'root';
 CREATE DATABASE texteditordb WITH OWNER=texteditormanager;
@@ -54,7 +54,7 @@ INSERT INTO files (title,text)
 VALUES ('new_file_name','Your new text...');
 ```
 
-After the setup of the database you have to run the code of file *models/CodeGen.scala* to autogenerate the data model of database to Scala code, by using Slick library. To run it open an sbt shell and run the command:
+After the setup of the database you have to run the code of file *models/CodeGen.scala* to autogenerate the data model of database to Scala code, by using Slick library. To run it open a sbt shell and run the command:
 ```
 runMain models.CodeGen
 ```
@@ -76,6 +76,8 @@ Play framework 2.8.18 version (running Java 11.0.17). Play Framework is an open-
 ### Slick
 Slick 5.1.0 version. Slick is a database access library for Scala.
 
+### Intellij IDEA
+IntelliJ IDEA was used for the development of the project.
 
 
 ## License
