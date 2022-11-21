@@ -2,6 +2,7 @@ const SAVING_MESSAGE = "Saving...";
 const SAVED_MESSAGE = "All changes saved.";
 const NOT_SAVED_MESSAGE = "Couldn't save your text.";
 const NOT_SAVED_MESSAGE_YET = "Your text is not saved yet";
+const SAVE_AFTER_X_TIMES = 1
 let saved = false;
 
 document.querySelectorAll('.autosave-message')
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             autosaveMessageEl.classList.add('autosave-message--not-saved-yet')
             autosaveMessageEl.textContent = NOT_SAVED_MESSAGE_YET + ".\r\n Type " + (5-counter) + " more times." ;
 
-            if (counter === 5){
+            if (counter === SAVE_AFTER_X_TIMES){
                 counter = 0;
                 autosaveMessageEl.classList.remove('autosave-message--not-saved-yet')
                 await saveText(inputField);
