@@ -1,23 +1,23 @@
 # WebTextEditor
-This is a Web-based text editor with auto-save capabilities. As a user edits text in the text editor, that text is automatically saved every five times user types in. Typing also contain characters like Backspace, Delete, or Ctrl-V. Text is automatically saved in a PostgreSQL database. If the web page is reloaded or the service is restarted, the text is recovered so that the user can continue editing. Also, files can be opened only in one tab.  If the file is open, it can not be opened by another user, neither the same browser nor any other browser. With this, we avoid simultaneous processing and achieve file consistency.
+This is a Web-based text editor with auto-save capabilities. As a user edits text in the text editor, that text is automatically saved every time user types in. Typing also contains characters like Backspace, Delete, Ctrl-V or Ctrl-X. To reduce network traffic, you can increase the parameter *SAVE_AFTER_X_TIMES* at file *public/javascripts/saveScript.js*. Text is automatically saved in a PostgreSQL database. If the web page is reloaded or the service is restarted, the text is recovered so that the user can continue editing. Also, files can be opened only in one tab.  If the file is open, it can not be opened by another user, neither the same browser nor any other browser. With this, we avoid simultaneous processing and achieve file consistency.
 
 ## Implementation/Capabilities of user
 The user has the following capabilities:
 
-- view all the files of the web text editor (that exist in database)
-- open a file and edit it
-- autosave of changes after 5 times he/she edits the file
-- informed if file is saved, if something went wrong with saving, or how many times he/she has to type to autosave the file.
-- create a new file
-- delete a file when after he/she opens it
-- notify him/her if something went wrong with the creation, the deletion or the saving process of a file 
+- view all the files of the web text editor (that exist in database).
+- open a file and edit it.
+- autosave of changes every time he/she edits the file.
+- informed if file is saved, while it is saved, if something went wrong with saving, or how many more times does he/she have to type to autosave the file.
+- create a new file.
+- delete a file after he/she opens it.
+- notify him/her if something went wrong with the creation, the deletion or the saving process of a file with the appropriate error pages. 
 
 
 ## Assumptions
 Some assumptions of this project are:
 
 - A file can be opened only in one tab. An error message occurs if someone tries to open it in another tab or browser.
-- After 5 times the user edits the file, it is automatically saved.
+- After *X* times the user edits the file, it is automatically saved. In this implementation parameter X equals to 1, but you can easily change it.
 
 
 ## Database
@@ -78,4 +78,9 @@ Slick 5.1.0 version. Slick is a database access library for Scala.
 
 ### Intellij IDEA
 IntelliJ IDEA was used for the development of the project.
+
+## Future work
+
+There are several ideas for future work and improvements on this project. Some automated tests could be added, security could be checked and protect the application against malicious users. Also, some kind user authentication or user-account creation could be added and the cookie policy could be changed.
+
 
