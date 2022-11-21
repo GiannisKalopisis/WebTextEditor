@@ -88,9 +88,7 @@ a:link {
 
 .button-back {
     width: 50%;
-    float: left;
     text-align: left;
-    color: chocolate;
 }
 
 .autosave-message--saving {
