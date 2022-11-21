@@ -79,7 +79,3 @@ Slick 5.1.0 version. Slick is a database access library for Scala.
 ### Intellij IDEA
 IntelliJ IDEA was used for the development of the project.
 
-
-## License
-
-MIT
